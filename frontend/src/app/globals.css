@@ -12,6 +12,7 @@ body {
   font-weight: 900;
   user-select: none;
   overflow: hidden;
+  background-color: #f3f2ef;
 }
 
 button:hover,
@@ -21,4 +22,10 @@ img:hover {
 
 .MuiButtonBase-root {
   text-transform: none;
+}
+
+p {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-all;
 }

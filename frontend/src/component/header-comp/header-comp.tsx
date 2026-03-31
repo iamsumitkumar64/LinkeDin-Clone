@@ -9,21 +9,22 @@ import { useState, useEffect } from "react"
 import { enqueueSnackbar } from "notistack"
 import Image from "next/image"
 import styles from "./headerComp.module.css"
-import RocketLaunchIcon from '@mui/icons-material/RocketLaunch'
-import Diversity3Icon from '@mui/icons-material/Diversity3'
-import SchoolIcon from '@mui/icons-material/School'
-import WorkIcon from '@mui/icons-material/Work'
-import PostAddIcon from "@mui/icons-material/PostAdd"
 import ArticleIcon from "@mui/icons-material/Article"
-import HandshakeIcon from '@mui/icons-material/Handshake';
-import BusinessIcon from '@mui/icons-material/Business';
-import AddBusinessIcon from '@mui/icons-material/AddBusiness';
-import AppsIcon from '@mui/icons-material/Apps';
-import BadgeIcon from '@mui/icons-material/Badge';
-import ChatIcon from '@mui/icons-material/Chat';
+import BusinessIcon from '@mui/icons-material/Business'
+import AddBusinessIcon from '@mui/icons-material/AddBusiness'
+import AppsIcon from '@mui/icons-material/Apps'
+import BadgeIcon from '@mui/icons-material/Badge'
 import { signOut } from "firebase/auth"
 import { auth } from "@/lib/firebase"
 import { RoleEnum } from "@/enums/user.role"
+import SearchComp from "../search-comp/search_comp"
+import { IoHomeSharp } from "react-icons/io5";
+import TextsmsIcon from '@mui/icons-material/Textsms';
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter';
+import { FaPeopleGroup } from "react-icons/fa6";
+import { RiGlobalFill } from "react-icons/ri";
+import { GoOrganization } from "react-icons/go";
+import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 
 export default function HeaderComp() {
     const pathname = usePathname()
@@ -34,41 +35,22 @@ export default function HeaderComp() {
 
     const tabsConfig = [
         {
-            label: "Profile",
-            icon: <Avatar sx={{ width: 20, height: 20 }} src={profile?.profile_img?.image_url || ""} />,
-            route: "/user/profile",
+            label: "Home",
+            icon: <IoHomeSharp />,
+            route: "/",
             isLoginNeeded: true,
             roles: [RoleEnum.USER]
         },
         {
-            label: "Update",
-            icon: <SchoolIcon />,
-            route: "/user/profile/form",
-            isLoginNeeded: true,
-            roles: [RoleEnum.USER]
-        },
-        {
-            label: "Globe Professionals",
-            icon: <RocketLaunchIcon />,
+            label: "Global Professionals",
+            icon: <RiGlobalFill />,
             route: "/user/connection/global",
             roles: [RoleEnum.USER]
         },
         {
-            label: "Request",
-            icon: <HandshakeIcon />,
-            route: "/user/connection/request",
-            roles: [RoleEnum.USER]
-        },
-        {
             label: "Network",
-            icon: <Diversity3Icon />,
+            icon: <FaPeopleGroup />,
             route: "/user/connection/network",
-            roles: [RoleEnum.USER]
-        },
-        {
-            label: "Connections Posts",
-            icon: <WorkIcon />,
-            route: "/user/connection/post",
             roles: [RoleEnum.USER]
         },
         {
@@ -79,35 +61,28 @@ export default function HeaderComp() {
             roles: [RoleEnum.USER]
         },
         {
-            label: "Create Post",
-            icon: <PostAddIcon />,
-            route: "/user/post/form",
-            isLoginNeeded: true,
-            roles: [RoleEnum.USER]
-        },
-        {
-            label: "Company Info",
+            label: "Company",
             icon: <BusinessIcon />,
             route: "/company/insight",
             isLoginNeeded: true,
             roles: [RoleEnum.COMPANY]
         },
         {
-            label: "Company Edit",
+            label: "Edit",
             icon: <AddBusinessIcon />,
             route: "/company/insight/form",
             isLoginNeeded: true,
             roles: [RoleEnum.COMPANY]
         },
         {
-            label: "job",
-            icon: <WorkIcon />,
+            label: "Jobs",
+            icon: <BusinessCenterIcon />,
             route: "/company/job",
             isLoginNeeded: true,
             roles: [RoleEnum.COMPANY]
         },
         {
-            label: "Job Applicants",
+            label: "Applicants",
             icon: <AppsIcon />,
             route: "/company/application",
             isLoginNeeded: true,
@@ -121,27 +96,20 @@ export default function HeaderComp() {
             roles: [RoleEnum.COMPANY]
         },
         {
-            label: "Find job",
-            icon: <WorkIcon />,
-            route: "/user/job/global",
-            isLoginNeeded: true,
-            roles: [RoleEnum.USER]
-        },
-        {
-            label: "Applied job",
-            icon: <WorkIcon />,
+            label: "Jobs",
+            icon: <BusinessCenterIcon />,
             route: "/user/job",
             isLoginNeeded: true,
             roles: [RoleEnum.USER]
         },
         {
             label: "Messaging",
-            icon: <ChatIcon />,
+            icon: <TextsmsIcon />,
             route: "/user/chat",
             isLoginNeeded: true,
             roles: [RoleEnum.USER]
         },
-    ];
+    ]
 
     const visibleTabs = tabsConfig.filter(
         (tab) =>
@@ -154,11 +122,7 @@ export default function HeaderComp() {
 
     useEffect(() => {
         const index = routes.indexOf(pathname)
-        if (index !== -1) {
-            setTabValue(index)
-        } else {
-            setTabValue(false)
-        }
+        setTabValue(index !== -1 ? index : false)
     }, [pathname])
 
     const handleChange = (_: React.SyntheticEvent, newValue: number) => {
@@ -182,13 +146,14 @@ export default function HeaderComp() {
         <Box className={styles.header}>
             <Box className={styles.leftContainer}>
                 <Image
-                    src={'/linkedin-logo.png'}
+                    src={'/linkedin.png'}
                     className={styles.avatar}
                     alt="logo"
-                    width={100}
-                    height={100}
+                    width={40}
+                    height={40}
                     onClick={() => router.replace('/')}
                 />
+                {user && <SearchComp onSearch={(value) => enqueueSnackbar(value, { variant: "info" })} />}
             </Box>
 
             <Box className={styles.rightContainer}>
@@ -196,22 +161,64 @@ export default function HeaderComp() {
                     <Tabs
                         value={tabValue}
                         onChange={handleChange}
-                        variant="scrollable"
-                        scrollButtons="auto"
+                        // variant="scrollable"
+                        // scrollButtons="auto"
+                        TabIndicatorProps={{
+                            style: { backgroundColor: "black" }
+                        }}
                     >
                         {visibleTabs.map((tab) => (
                             <Tab
                                 key={tab.route}
                                 icon={tab.icon}
+                                iconPosition="top"
                                 label={
                                     <Typography className={styles.categoryText}>
                                         {tab.label}
                                     </Typography>
                                 }
                                 className={styles.categoryBoxes}
+                                sx={{
+                                    "&.Mui-selected": {
+                                        color: "black"
+                                    }
+                                }}
                             />
                         ))}
                     </Tabs>
+                </Box>
+
+                <Box className={styles.sideBox}>
+                    <Tab
+                        icon={<GoOrganization />}
+                        iconPosition="top"
+                        label={
+                            <Typography className={styles.categoryText}>
+                                For Business
+                            </Typography>
+                        }
+                        className={styles.categoryBoxes}
+                        sx={{
+                            "&.Mui-selected": {
+                                color: "black"
+                            }
+                        }}
+                    />
+                    <Tab
+                        icon={<WorkspacePremiumIcon />}
+                        iconPosition="top"
+                        label={
+                            <Typography className={styles.categoryText}>
+                                Try Premium
+                            </Typography>
+                        }
+                        className={styles.categoryBoxes}
+                        sx={{
+                            "&.Mui-selected": {
+                                color: "black"
+                            }
+                        }}
+                    />
                 </Box>
 
                 {user ? (
@@ -219,7 +226,7 @@ export default function HeaderComp() {
                         className={styles.logoutButton}
                         onClick={handleLogOut}
                     >
-                        Log Out
+                        Sign Out
                     </Button>
                 ) : (
                     <Box className={styles.authButtons}>

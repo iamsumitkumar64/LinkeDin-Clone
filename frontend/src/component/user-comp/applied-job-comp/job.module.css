@@ -1,8 +1,10 @@
 .container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 100%;
-    height: 93%;
+    height: 100%;
     overflow: auto;
 }
 
@@ -45,6 +47,7 @@
 
 .salary {
     opacity: 0.9;
+    color: green;
 }
 
 .loader {
