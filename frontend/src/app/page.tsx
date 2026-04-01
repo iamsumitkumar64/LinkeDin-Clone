@@ -3,22 +3,27 @@
 import styles from "./home.module.css"
 import { RootState } from "@/redux/store"
 import { useSelector } from "react-redux"
-import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
-import VerifiedUserIcon from '@mui/icons-material/VerifiedUser';
+import { BsBoxSeamFill } from "react-icons/bs";
+import { MdOutlineVerifiedUser } from "react-icons/md";
 import BookmarkIcon from '@mui/icons-material/Bookmark';
 import GroupsIcon from '@mui/icons-material/Groups';
 import NewspaperIcon from '@mui/icons-material/Newspaper';
 import EventIcon from '@mui/icons-material/Event';
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { BsThreeDots } from "react-icons/bs";
+import { IoCreateOutline } from "react-icons/io5";
+import { IoIosArrowUp } from "react-icons/io";
+import { GoDotFill } from "react-icons/go";
 
 import {
   Avatar,
   Box,
+  Modal,
   Typography
 } from "@mui/material"
 import { RoleEnum } from "@/enums/user.role";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAppDispatch } from "@/redux/hooks.ts";
 import { enqueueSnackbar } from "notistack";
 import { getProfile } from "@/redux/feature/user/Profile/profileAction";
@@ -30,12 +35,14 @@ import InfoOutlineIcon from '@mui/icons-material/InfoOutline';
 import { getLinkedInTime } from "@/util/post.time";
 import { useRouter } from "next/navigation";
 import { getConnectionPosts, getConnections } from "@/redux/feature/user/Connection/connectionAction";
+import ChatPage from "./user/chat/page";
 
 export default function Home() {
   const { user, loading } = useSelector((state: RootState) => state.authReducer)
   const { profile, status } = useSelector((state: RootState) => state.profileReducer)
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const [openMessangingModal, setOpenMessangingModal] = useState<boolean>(false);
 
   useEffect(() => {
     try {
@@ -56,6 +63,9 @@ export default function Home() {
     return <Box className={styles.container}>Loading...</Box>;
   }
 
+  const handleMessangingModalOpen = () => setOpenMessangingModal(true);
+  const handleMessangingModalClose = () => setOpenMessangingModal(false);
+
   return (
     <Box className={styles.container}>
       <Box className={styles.layout}>
@@ -68,7 +78,7 @@ export default function Home() {
             />
             <Typography className={styles.profilename}>
               {user?.name}
-              <VerifiedUserIcon />
+              <MdOutlineVerifiedUser />
             </Typography>
             <Typography className={styles.profilebio}>
               {profile?.bio || "No bio"}
@@ -80,9 +90,10 @@ export default function Home() {
 
           <Box className={styles.careerBox}>
             <Typography>Achieve your career goals</Typography>
-            <Typography>
-              <WorkspacePremiumIcon /> Try Premium for ₹0
-            </Typography>
+            <Box>
+              <BsBoxSeamFill color="rgb(223, 163, 0)" />
+              <Typography  className={styles.careerPremiumText}>Try Premium for ₹0 </Typography>
+            </Box>
           </Box>
 
           <Box className={styles.profileImpressionViewerBox}>
@@ -99,7 +110,7 @@ export default function Home() {
                 Profile Impressions
               </Typography>
               <Typography sx={{ color: "rgb(0, 121, 219)" }}>
-                {profile?.impressions || 125}
+                {profile?.impressions || 12}
               </Typography>
             </Box>
           </Box>
@@ -238,6 +249,27 @@ export default function Home() {
           </Box>
         </Box>
       </Box>
+
+      <Box className={styles.bottomMessaging}>
+        <Box className={styles.bottomMessangingLeft} onClick={handleMessangingModalOpen}>
+          <Avatar
+            src={profile?.profile_img?.image_url || ""}
+            className={styles.bottomMessangingAvatar}
+          />
+          <GoDotFill className={styles.bottomGreenDotMessaging} />
+          <Typography>Messanging</Typography>
+        </Box>
+        <Box className={styles.bottomMessangingRight}>
+          <BsThreeDots className={styles.icon} />
+          <IoCreateOutline className={styles.icon} />
+          <IoIosArrowUp className={styles.icon} />
+        </Box>
+      </Box>
+      <Modal open={openMessangingModal} onClose={handleMessangingModalClose} className={styles.modal} >
+        <Box className={styles.modalWrapper}>
+          <ChatPage />
+        </Box>
+      </Modal>
     </Box>
   )
 }

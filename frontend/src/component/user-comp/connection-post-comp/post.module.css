@@ -46,7 +46,8 @@
 }
 
 .bio {
-    color: rgb(87, 87, 87);
+    color: rgb(114, 114, 114);
+    font-size: 12px;
 }
 
 .card:hover {
@@ -128,7 +129,7 @@
     border-radius: 0.6%;
     box-shadow: 0 0 0.6% rgba(0, 0, 0, 0.1);
     transition: transform 0.3s ease;
-    border: 2px solid rgb(196, 196, 196);
+    border: 1px solid rgb(235, 235, 235);
     border-radius: 16px;
 }
 
@@ -159,4 +160,6 @@
 
 .boxButtons>button {
     padding: 2%;
+    width: 100%;
+    border-top: 1px solid rgb(219, 219, 219);
 }
