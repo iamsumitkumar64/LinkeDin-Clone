@@ -64,7 +64,7 @@ export default function NestedComments({
         onDeleteAction={(data: any) => onDelete?.(data.comIdToDelete)}
         onEditAction={(data: any) => onEdit?.(data.comId, data.text)}
         logIn={{ loginLink: "#", signUpLink: "#" }}
-        // advancedInput={true}
+        advancedInput={true}
       />
     </Box>
   );
