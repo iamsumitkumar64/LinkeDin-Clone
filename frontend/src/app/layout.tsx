@@ -26,7 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
     const timer = setTimeout(() => {
       setLoading(false);
-    }, 500);
+    }, 200);
 
     return () => clearTimeout(timer);
   }, [pathname]);
