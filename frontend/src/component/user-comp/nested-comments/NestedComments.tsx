@@ -1,8 +1,7 @@
 "use client";
 
-import React from "react";
-import { CommentSection } from "react-comments-section";
-import "./comments-section.css";
+import React, { useMemo } from "react";
+import { NestedComments as DotNestedComments, CommentFieldMapping } from "dot-react-comment-lib";
 import { Box } from "@mui/material";
 
 interface User {
@@ -15,7 +14,16 @@ interface BackendComment {
   uuid: string;
   parent_uuid: string | null;
   comment: string;
-  user: User;
+  user: {
+    uuid: string;
+    name: string;
+    profile?: {
+      profile_img?: {
+        image_url?: string;
+      };
+    };
+    profile_img?: string;
+  };
   created_at: string | Date;
 }
 
@@ -34,37 +42,75 @@ export default function NestedComments({
   onDelete,
   onEdit,
 }: MinimalCommentsProps) {
-  const mapComments = (all: BackendComment[]) => {
-    const build = (parentId: string | null = null): any[] => {
-      return all
-        .filter((c) => c.parent_uuid === parentId)
-        .map((c) => ({
-          userId: c.user.uuid,
-          comId: c.uuid,
-          fullName: c.user.name,
-          avatarUrl: c.user.profile_img || "",
-          text: c.comment,
-          replies: build(c.uuid), // Recursion
-        }));
-    };
-    return build(null);
-  };
+  const schema: CommentFieldMapping<BackendComment> = useMemo(
+    () => ({
+      idKey: "uuid",
+      parentIdKey: "parent_uuid",
+      contentKey: "comment",
+      createdAtKey: "created_at",
+      authorKey: (item) => ({
+        id: item.user?.uuid || "",
+        name: item.user?.name || "User",
+        avatarUrl:
+          item.user?.profile?.profile_img?.image_url ||
+          item.user?.profile_img ||
+          undefined,
+      }),
+    }),
+    []
+  );
 
   return (
-    <Box sx={{ "& .comment-section": { fontFamily: "inherit" } }}>
-      <CommentSection
+    <Box sx={{ width: "100%", mt: 1 }}>
+      <DotNestedComments<BackendComment>
+        comments={comments || []}
+        schema={schema}
         currentUser={{
-          currentUserId: currentUser.uuid,
-          currentUserImg: currentUser.profile_img || "",
-          currentUserFullName: currentUser.name,
-          currentUserProfile: `/user/${currentUser.uuid}`,
+          id: currentUser.uuid,
+          name: currentUser.name,
+          avatarUrl: currentUser.profile_img || undefined,
         }}
-        commentData={mapComments(comments)}
-        onSubmitAction={(data: any) => onAdd(data.text, data.parentOfDeleteId)}
-        onDeleteAction={(data: any) => onDelete?.(data.comIdToDelete)}
-        onEditAction={(data: any) => onEdit?.(data.comId, data.text)}
-        logIn={{ loginLink: "#", signUpLink: "#" }}
-        advancedInput={true}
+        config={{
+          enableNesting: true,
+          showThreadLines: true,
+          showAvatars: true,
+          avatarShape: "circle",
+          enableReactions: true,
+          enableEmojiPicker: true,
+          collapsible: true,
+          defaultExpanded: true,
+          composerPosition: "top",
+        }}
+        onSubmitComment={async ({ content, parentId }) => {
+          await onAdd(content, parentId ?? undefined);
+        }}
+        onDeleteComment={async ({ id }) => {
+          if (onDelete) {
+            await onDelete(id);
+          }
+        }}
+        onEditComment={async ({ id, content }) => {
+          if (onEdit) {
+            await onEdit(id, content);
+          }
+        }}
+        styles={{
+          root: {
+            p: 0,
+            background: "transparent",
+            boxShadow: "none",
+          },
+          header: {
+            display: "none",
+          },
+          composer: {
+            my: 1.5,
+          },
+          commentItem: {
+            p: 1,
+            borderRadius: 2,
+          },
+        }}
       />
     </Box>
   );
