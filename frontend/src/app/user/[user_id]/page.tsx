@@ -21,7 +21,7 @@ export default function UserProfilePage() {
 
     useEffect(() => {
         if (!user) {
-            dispatch(getConnections({ limit: LIMIT, page: 1 }));
+            dispatch(getConnections({ limit: 100, page: 1 }));
         }
     }, [dispatch, user]);
 

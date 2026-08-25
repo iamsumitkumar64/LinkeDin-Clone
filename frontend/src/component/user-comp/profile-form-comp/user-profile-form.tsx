@@ -76,6 +76,8 @@ export default function UserProfileFormComp() {
                     mobile_number: data.mobile_number,
                 })
             ).unwrap();
+            await dispatch(getProfile()).unwrap();
+            enqueueSnackbar("Profile saved successfully", { variant: "success" });
         } catch (error) {
             enqueueSnackbar(String(error || "Something wrong"), { variant: "error" });
         }
@@ -86,6 +88,9 @@ export default function UserProfileFormComp() {
             if (!file) return;
             const path = await dispatch(uploadImage(file)).unwrap();
             await dispatch(updateProfileImage(path)).unwrap();
+            await dispatch(getProfile()).unwrap();
+            enqueueSnackbar("Profile image updated", { variant: "success" });
+            setFile(null);
         } catch (error) {
             enqueueSnackbar(String(error || "Something wrong"), { variant: "error" });
         }
@@ -111,6 +116,8 @@ export default function UserProfileFormComp() {
             };
 
             await dispatch(createEducation(formattedData)).unwrap();
+            await dispatch(getEducation()).unwrap();
+            enqueueSnackbar("Education added successfully", { variant: "success" });
             resetEdu();
         } catch (error) {
             enqueueSnackbar(String(error || "Something wrong"), { variant: "error" });
@@ -127,16 +134,22 @@ export default function UserProfileFormComp() {
     });
 
     const onEmploymentSubmit = async (data: EmploymentFormValues) => {
-        const formattedData = {
-            ...data,
-            start_date: new Date(data.start_date).toISOString(),
-            end_date: data.end_date
-                ? new Date(data.end_date).toISOString()
-                : undefined,
-        };
+        try {
+            const formattedData = {
+                ...data,
+                start_date: new Date(data.start_date).toISOString(),
+                end_date: data.end_date
+                    ? new Date(data.end_date).toISOString()
+                    : undefined,
+            };
 
-        await dispatch(createEmployment(formattedData));
-        resetEmp();
+            await dispatch(createEmployment(formattedData)).unwrap();
+            await dispatch(getEmployment()).unwrap();
+            enqueueSnackbar("Experience added successfully", { variant: "success" });
+            resetEmp();
+        } catch (error) {
+            enqueueSnackbar(String(error || "Something wrong"), { variant: "error" });
+        }
     };
 
     useEffect(() => {
@@ -218,7 +231,7 @@ export default function UserProfileFormComp() {
                         fullWidth
                         multiline
                         rows={3}
-                        {...empRegister("description")}
+                        {...eduRegister("description")}
                     />
                     <TextField label="School URL" fullWidth {...eduRegister("school_url")} />
 

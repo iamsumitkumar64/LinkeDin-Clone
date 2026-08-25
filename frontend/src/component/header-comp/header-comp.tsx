@@ -27,12 +27,25 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import WorkspacePremiumIcon from '@mui/icons-material/WorkspacePremium';
 import { BsBoxSeamFill } from "react-icons/bs";
 
+import { getProfile } from "@/redux/feature/user/Profile/profileAction"
+import { getInsight } from "@/redux/feature/company/insight/insightAction"
+
 export default function HeaderComp() {
     const pathname = usePathname()
     const router = useRouter()
     const dispatch = useDispatch<AppDispatch>()
     const { user } = useSelector((state: RootState) => state.authReducer)
     const { profile } = useSelector((state: RootState) => state.profileReducer)
+
+    useEffect(() => {
+        if (user) {
+            if (user.role === RoleEnum.USER) {
+                dispatch(getProfile());
+            } else if (user.role === RoleEnum.COMPANY) {
+                dispatch(getInsight());
+            }
+        }
+    }, [dispatch, user?.uid, user?.role])
 
     const tabsConfig = [
         {

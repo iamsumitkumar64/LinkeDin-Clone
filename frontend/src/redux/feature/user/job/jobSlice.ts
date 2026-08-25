@@ -23,8 +23,16 @@ const jobSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(getJobs.fulfilled, (state, action) => {
-                state.jobs = action.payload.jobs;
-                state.totalJobDocuments = action.payload.totalDocuments;
+                if (!action.meta.arg?.page || action.meta.arg.page === 1) {
+                    state.jobs = action.payload.jobs || [];
+                } else {
+                    const existingIds = new Set(state.jobs.map((j) => j.uuid));
+                    const newJobs = (action.payload.jobs || []).filter(
+                        (j: any) => !existingIds.has(j.uuid)
+                    );
+                    state.jobs = [...state.jobs, ...newJobs];
+                }
+                state.totalJobDocuments = action.payload.totalDocuments || 0;
             })
             .addCase(applyJob.fulfilled, (state, action) => {
                 state.applications.push(action.payload);

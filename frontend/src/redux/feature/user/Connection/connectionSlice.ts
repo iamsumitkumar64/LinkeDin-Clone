@@ -29,19 +29,19 @@ const connectionSlice = createSlice({
             })
             .addCase(getConnections.fulfilled, (state, action) => {
                 state.loading = false;
-                if (action.meta.arg.page === 1) {
-                    state.connections = action.payload.connections;
+                if (!action.meta.arg?.page || action.meta.arg.page === 1) {
+                    state.connections = action.payload.connections || [];
                 } else {
                     const existingIds = new Set(
                         state.connections.map((c) => c.uuid)
                     );
 
-                    const newData = action.payload.connections.filter(
+                    const newData = (action.payload.connections || []).filter(
                         (item) => !existingIds.has(item.uuid)
                     );
                     state.connections = [...state.connections, ...newData];
                 }
-                state.connectionsTotalDocuments = action.payload.totalDocuments;
+                state.connectionsTotalDocuments = action.payload.totalDocuments || 0;
                 state.error = null;
             })
             .addCase(getConnections.rejected, (state, action) => {
@@ -58,14 +58,14 @@ const connectionSlice = createSlice({
             })
             .addCase(getConnectionRequests.fulfilled, (state, action) => {
                 state.loading = false;
-                if (action.meta.arg.page === 1) {
-                    state.connectionRequests = action.payload.requests;
+                if (!action.meta.arg?.page || action.meta.arg.page === 1) {
+                    state.connectionRequests = action.payload.requests || [];
                 } else {
                     const existingIds = new Set(
                         state.connectionRequests.map((r) => r.uuid)
                     );
 
-                    const newData = action.payload.requests.filter(
+                    const newData = (action.payload.requests || []).filter(
                         (item) => !existingIds.has(item.uuid)
                     );
 
@@ -92,7 +92,7 @@ const connectionSlice = createSlice({
             })
             .addCase(getReceivedConnectionRequests.fulfilled, (state, action) => {
                 state.loading = false;
-                state.receivedConnectionRequests = action.payload.requests;
+                state.receivedConnectionRequests = action.payload.requests || [];
                 state.error = null;
             })
             .addCase(getReceivedConnectionRequests.rejected, (state, action) => {
@@ -123,17 +123,17 @@ const connectionSlice = createSlice({
                 state.loading = true;
             })
             .addCase(getNetworkConnections.fulfilled, (state, action) => {
-                if (action.meta.arg.page === 1) {
-                    state.network = action.payload.connections;
+                if (!action.meta.arg?.page || action.meta.arg.page === 1) {
+                    state.network = action.payload.connections || [];
                 } else {
                     const existingIds = new Set(state.network.map((c) => c.uuid));
-                    const newData = action.payload.connections.filter((item) => !existingIds.has(item.uuid));
+                    const newData = (action.payload.connections || []).filter((item) => !existingIds.has(item.uuid));
                     state.network = [...state.network, ...newData];
                 }
 
                 state.error = null;
                 state.loading = false;
-                state.networkTotalDocuments = action.payload.totalDocuments;
+                state.networkTotalDocuments = action.payload.totalDocuments || 0;
             })
             .addCase(getNetworkConnections.rejected, (state, action) => {
                 state.loading = false;
@@ -144,13 +144,13 @@ const connectionSlice = createSlice({
             })
             .addCase(getConnectionPosts.fulfilled, (state, action) => {
                 state.loading = false;
-                if (action.meta.arg.page === 1) {
-                    state.connectionPosts = action.payload.posts;
+                if (!action.meta.arg?.page || action.meta.arg.page === 1) {
+                    state.connectionPosts = action.payload.posts || [];
                 } else {
                     const existingIds = new Set(
                         state.connectionPosts.map((p) => p.uuid)
                     );
-                    const newPosts = action.payload.posts.filter(
+                    const newPosts = (action.payload.posts || []).filter(
                         (post) => !existingIds.has(post.uuid)
                     );
                     state.connectionPosts = [
@@ -158,7 +158,7 @@ const connectionSlice = createSlice({
                         ...newPosts,
                     ];
                 }
-                state.postsTotalDocuments = action.payload.totalDocuments;
+                state.postsTotalDocuments = action.payload.totalDocuments || 0;
                 state.error = null;
             })
             .addCase(getConnectionPosts.rejected, (state, action) => {

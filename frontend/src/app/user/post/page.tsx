@@ -68,8 +68,8 @@ export default function PostList() {
 
     return (
         <Box className={styles.container}>
-            {(posts?.length != 0 &&
-                <Box className={styles.scrollContainer} id="scrollableDiv">
+            {posts?.length > 0 ? (
+                <Box className={styles.scrollContainer}>
                     <InfiniteScroll
                         dataLength={posts.length}
                         next={fetchMoreData}
@@ -79,7 +79,6 @@ export default function PostList() {
                                 <CircularProgress />
                             </Box>
                         }
-                        scrollableTarget="scrollableDiv"
                     >
                         <Box className={styles.flexWrap}>
                             {posts.map((post) => {
@@ -93,15 +92,15 @@ export default function PostList() {
                                                         src={post.user?.profile?.profile_img?.image_url || ""}
                                                         className={styles.avatar}
                                                     >
-                                                        {post.user.name[0]}
+                                                        {post.user?.name?.[0] || "U"}
                                                     </Avatar>
 
                                                     <Box>
                                                         <Typography className={styles.username}>
-                                                            {post.user.name}
+                                                            {post.user?.name}
                                                         </Typography>
                                                         <Typography className={styles.date}>
-                                                            {getLinkedInTime(post.created_at)} &#9679; <PublicIcon />
+                                                            {getLinkedInTime(post.created_at)} &#9679; <PublicIcon fontSize="inherit" />
                                                         </Typography>
                                                     </Box>
                                                 </Box>
@@ -133,7 +132,7 @@ export default function PostList() {
                                                     <Box
                                                         onMouseLeave={() => setHoveredPost(null)}
                                                         style={{
-                                                            position: 'absolute',
+                                                             position: 'absolute',
                                                             bottom: '100%',
                                                             left: 0,
                                                             zIndex: 10,
@@ -174,7 +173,11 @@ export default function PostList() {
                         </Box>
                     </InfiniteScroll>
                 </Box>
-            )}
+            ) : !loading ? (
+                <Box className={styles.loader}>
+                    <Typography color="text.secondary">No posts yet</Typography>
+                </Box>
+            ) : null}
         </Box>
     );
 }

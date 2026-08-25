@@ -4,11 +4,24 @@ import styles from "./insight.module.css";
 import { Box, Card, Typography, Button } from "@mui/material";
 import { RootState } from "@/redux/store";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
-import { deleteInsight } from "@/redux/feature/company/insight/insightAction";
+import { deleteInsight, getInsight } from "@/redux/feature/company/insight/insightAction";
+import { useEffect } from "react";
 
 export default function InsightDashboard() {
     const dispatch = useAppDispatch();
     const { company: insight, loading } = useAppSelector((state: RootState) => state.insightReducer);
+
+    useEffect(() => {
+        dispatch(getInsight());
+    }, [dispatch]);
+
+    if (loading && !insight) {
+        return (
+            <Box className={styles.empty}>
+                <Typography>Loading insights...</Typography>
+            </Box>
+        );
+    }
 
     if (!insight) {
         return (

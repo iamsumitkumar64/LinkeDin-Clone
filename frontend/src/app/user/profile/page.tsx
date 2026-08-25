@@ -46,6 +46,24 @@ export default function ProfileView() {
     const handleProfileFormModalOpen = () => setOpenModal(true);
     const handleProfileFormModalClose = () => setOpenModal(false);
 
+    const handleDeleteEducation = async (uuid: string) => {
+        try {
+            await dispatch(deleteEducation(uuid)).unwrap();
+            enqueueSnackbar("Education deleted", { variant: "success" });
+        } catch (err) {
+            enqueueSnackbar("Failed to delete education", { variant: "error" });
+        }
+    };
+
+    const handleDeleteEmployment = async (uuid: string) => {
+        try {
+            await dispatch(deleteEmployment(uuid)).unwrap();
+            enqueueSnackbar("Experience deleted", { variant: "success" });
+        } catch (err) {
+            enqueueSnackbar("Failed to delete experience", { variant: "error" });
+        }
+    };
+
     return (
         <Box className={styles.container}>
             <Box className={styles.scrollContainer}>
@@ -110,7 +128,7 @@ export default function ProfileView() {
 
                                         {edu.school_url && (
                                             <Typography
-                                                onClick={() => handleRedirect(edu.company_url)}
+                                                onClick={() => handleRedirect(edu.school_url)}
                                                 className={styles.company_url}>
                                                 {edu.school_url}
                                             </Typography>
@@ -126,7 +144,7 @@ export default function ProfileView() {
                                                 color="error"
                                                 size="small"
                                                 onClick={() =>
-                                                    dispatch(deleteEducation(edu.uuid))
+                                                    handleDeleteEducation(edu.uuid)
                                                 }
                                             >
                                                 Delete
@@ -180,7 +198,7 @@ export default function ProfileView() {
                                                 color="error"
                                                 size="small"
                                                 onClick={() =>
-                                                    dispatch(deleteEmployment(emp.uuid))
+                                                    handleDeleteEmployment(emp.uuid)
                                                 }
                                             >
                                                 Delete

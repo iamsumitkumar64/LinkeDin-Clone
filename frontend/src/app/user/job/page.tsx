@@ -34,10 +34,11 @@ export default function GlobalJobPage() {
     const handleProfileFormModalClose = () => setOpenModal(false);
 
     useEffect(() => {
-        if (!jobs.length || jobs.length < totalJobDocuments) {
-            dispatch(getAppliedJobs());
-            dispatch(getJobs({ limit: LIMIT, page }));
-        }
+        dispatch(getAppliedJobs());
+    }, [dispatch]);
+
+    useEffect(() => {
+        dispatch(getJobs({ limit: LIMIT, page }));
     }, [dispatch, page]);
 
     const fetchMoreData = () => {
@@ -56,6 +57,8 @@ export default function GlobalJobPage() {
 
         try {
             await dispatch(applyJob({ job_uuid })).unwrap();
+            await dispatch(getAppliedJobs());
+            enqueueSnackbar("Job application submitted!", { variant: "success" });
         } catch (err) {
             enqueueSnackbar(String(err || "Something went wrong"), {
                 variant: "error",
@@ -64,8 +67,7 @@ export default function GlobalJobPage() {
     };
 
     return (
-        <Box className={styles.container} id="scrollableDiv">
-            {/* <Box className={styles.headerBox}> */}
+        <Box className={styles.container}>
             <Box className={styles.header}>
                 <SearchComp
                     onSearch={(value) => {
@@ -76,7 +78,6 @@ export default function GlobalJobPage() {
                 <Button className={styles.appliedBtn} onClick={handleProfileFormModalOpen}>
                     Applied Jobs
                 </Button>
-                {/* </Box> */}
             </Box>
 
             {!loading && jobs.length ? (
@@ -89,7 +90,6 @@ export default function GlobalJobPage() {
                             <CircularProgress />
                         </Box>
                     }
-                    scrollableTarget="scrollableDiv"
                 >
                     <Box className={styles.list}>
                         {jobs.map((job) => (

@@ -137,7 +137,7 @@ export default function ConnectionPostComp() {
     };
 
     return (
-        <Box className={styles.container} id="scrollableDiv">
+        <Box className={styles.container}>
             <InfiniteScroll
                 dataLength={connectionPosts.length}
                 next={fetchMoreData}
@@ -147,7 +147,6 @@ export default function ConnectionPostComp() {
                         <CircularProgress />
                     </Box>
                 }
-                scrollableTarget="scrollableDiv"
                 className={styles.infiniteScroll}
             >
                 <Box className={styles.flexWrap}>

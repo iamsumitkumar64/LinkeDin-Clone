@@ -22,6 +22,7 @@ import employeeReducer from "../feature/company/employee/employeeSlice";
 const persistConfig = {
     key: "root",
     storage,
+    whitelist: ["authReducer"],
 };
 
 const appReducer = combineReducers({

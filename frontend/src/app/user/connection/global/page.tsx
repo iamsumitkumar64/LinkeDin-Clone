@@ -6,7 +6,7 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import styles from "./connection.module.css";
 import { useAppDispatch, useAppSelector } from "@/redux/hooks.ts";
 import { RootState } from "@/redux/store";
-import { getConnections, sendConnectionRequest } from "@/redux/feature/user/Connection/connectionAction";
+import { getConnections, getConnectionRequests, getNetworkConnections, sendConnectionRequest } from "@/redux/feature/user/Connection/connectionAction";
 import { enqueueSnackbar } from "notistack";
 import UserConnectionRequestPage from "@/component/user-comp/request-comp.tsx/request-comp";
 import { useRouter } from "next/navigation";
@@ -27,15 +27,18 @@ export default function GlobalConnectionPage() {
     const handleProfileFormModalClose = () => setOpenModal(false);
 
     useEffect(() => {
-        if (!connections.length || connections.length < connectionsTotalDocuments) {
-            try {
-                dispatch(getConnections({ limit: LIMIT, page })).unwrap();
-            } catch (error) {
-                enqueueSnackbar(String(error || "Something wrong"), { variant: "error" });
-                console.error(error)
-            }
+        try {
+            dispatch(getConnections({ limit: LIMIT, page })).unwrap();
+        } catch (error) {
+            enqueueSnackbar(String(error || "Something wrong"), { variant: "error" });
+            console.error(error);
         }
     }, [dispatch, page]);
+
+    useEffect(() => {
+        dispatch(getConnectionRequests({ limit: 100 }));
+        dispatch(getNetworkConnections({ limit: 100 }));
+    }, [dispatch]);
 
     const fetchMoreData = () => {
         if (loading) return;
@@ -53,6 +56,7 @@ export default function GlobalConnectionPage() {
 
         try {
             await dispatch(sendConnectionRequest({ connected_user_uuid: uuid })).unwrap();
+            enqueueSnackbar("Connection request sent", { variant: "success" });
         } catch (error) {
             enqueueSnackbar(String(error || "Something wrong"), {
                 variant: "error",
@@ -69,7 +73,7 @@ export default function GlobalConnectionPage() {
     }
 
     return (
-        <Box className={styles.container} id="scrollableDiv">
+        <Box className={styles.container}>
             <Box className={styles.topButton}>
                 <Typography variant="h6" fontWeight={700}>
                     Global Professionals
@@ -88,7 +92,6 @@ export default function GlobalConnectionPage() {
                         <CircularProgress />
                     </Box>
                 }
-                scrollableTarget="scrollableDiv"
             >
                 <Box className={styles.infiniteScrollComp}>
                     {connections

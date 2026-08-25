@@ -24,12 +24,14 @@ export class CommentRepository extends Repository<CommentEntity> {
         return await this.find({
             where: {
                 uuid
-            }
-            , relations: {
-                user: true,
-                post:true
-            }
-            , select: {
+            },
+            relations: {
+                user: {
+                    profile: true
+                },
+                post: true
+            },
+            select: {
                 uuid: true,
                 parent_uuid: true,
                 comment: true,
@@ -38,6 +40,14 @@ export class CommentRepository extends Repository<CommentEntity> {
                     uuid: true,
                     name: true,
                     email: true,
+                    profile: {
+                        uuid: true,
+                        bio: true,
+                        profile_img: {
+                            uuid: true,
+                            image_url: true,
+                        }
+                    }
                 },
                 post: true,
                 user_uuid: true,
@@ -50,12 +60,14 @@ export class CommentRepository extends Repository<CommentEntity> {
         return await this.find({
             where: {
                 post_uuid: post_uuid
-            }
-            , relations: {
-                user: true,
-                post:true
-            }
-            , select: {
+            },
+            relations: {
+                user: {
+                    profile: true
+                },
+                post: true
+            },
+            select: {
                 uuid: true,
                 parent_uuid: true,
                 comment: true,
@@ -64,6 +76,14 @@ export class CommentRepository extends Repository<CommentEntity> {
                     uuid: true,
                     name: true,
                     email: true,
+                    profile: {
+                        uuid: true,
+                        bio: true,
+                        profile_img: {
+                            uuid: true,
+                            image_url: true,
+                        }
+                    }
                 },
                 post: true,
                 user_uuid: true,

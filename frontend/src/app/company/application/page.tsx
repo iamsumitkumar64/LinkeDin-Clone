@@ -56,7 +56,7 @@ export default function ApplicationsPage() {
     };
 
     return (
-        <Box className={styles.container} id="scrollableDiv">
+        <Box className={styles.container}>
             <Typography className={styles.title}>
                 Applications
             </Typography>
@@ -71,7 +71,6 @@ export default function ApplicationsPage() {
                             <CircularProgress />
                         </Box>
                     }
-                    scrollableTarget="scrollableDiv"
                 >
                     <Box className={styles.list}>
                         {applications.map((app) => (

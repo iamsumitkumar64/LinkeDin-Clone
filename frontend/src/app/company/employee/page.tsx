@@ -17,9 +17,7 @@ export default function EmployeeListing() {
     const employees = jobs.flatMap((job) => job.employees);
 
     useEffect(() => {
-        if (!employees.length || employees.length < totalDocuments) {
-            dispatch(getCompanyEmployees({ limit: LIMIT, page }));
-        }
+        dispatch(getCompanyEmployees({ limit: LIMIT, page }));
     }, [dispatch, page]);
 
     const fetchMoreData = () => {
@@ -41,7 +39,7 @@ export default function EmployeeListing() {
     }
 
     return (
-        <Box className={styles.container} id="scrollableDiv">
+        <Box className={styles.container}>
             <InfiniteScroll
                 dataLength={employees.length}
                 next={fetchMoreData}
@@ -51,7 +49,6 @@ export default function EmployeeListing() {
                         <CircularProgress />
                     </Box>
                 }
-                scrollableTarget="scrollableDiv"
             >
                 <Box className={styles.list}>
                     {employees.map((emp) => (

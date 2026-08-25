@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { postSchema, PostFormValues } from "@/schemas/post.schema";
-import { createPost, uploadPostImages } from "@/redux/feature/user/Post/postAction";
+import { createPost, uploadPostImages, getPosts } from "@/redux/feature/user/Post/postAction";
+import { getConnectionPosts } from "@/redux/feature/user/Connection/connectionAction";
 import { Card, TextField, Typography, Box, IconButton, Button, Modal, Avatar } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ImageIcon from "@mui/icons-material/Image";
@@ -77,6 +78,10 @@ export default function PostFormPage() {
                     images,
                 })
             ).unwrap();
+
+            dispatch(getConnectionPosts({ limit: 10, page: 1 }));
+            dispatch(getPosts({ page: 1, limit: 10 }));
+            enqueueSnackbar("Post created successfully!", { variant: "success" });
 
             reset();
             setFiles([]);

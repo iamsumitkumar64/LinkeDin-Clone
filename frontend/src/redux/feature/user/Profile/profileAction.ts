@@ -80,7 +80,7 @@ export const updateProfile = createAsyncThunk<
             const data = await res.json();
             if (!res.ok) throw new Error(data.message);
 
-            return data;
+            return data.profile;
         } catch (err: any) {
             return rejectWithValue(err.message);
         }

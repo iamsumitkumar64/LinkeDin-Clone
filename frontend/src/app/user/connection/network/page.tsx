@@ -18,9 +18,7 @@ export default function NetworkPage() {
   const router = useRouter()
 
   useEffect(() => {
-    if (!network.length || network.length < networkTotalDocuments) {
-      dispatch(getNetworkConnections({ limit: LIMIT, page })).unwrap();
-    }
+    dispatch(getNetworkConnections({ limit: LIMIT, page }));
   }, [dispatch, page]);
 
   const fetchMoreData = () => {
@@ -42,7 +40,7 @@ export default function NetworkPage() {
   }
 
   return (
-    <Box className={styles.container} id="scrollableDiv">
+    <Box className={styles.container}>
       <InfiniteScroll
         dataLength={network.length}
         next={fetchMoreData}
@@ -52,7 +50,6 @@ export default function NetworkPage() {
             <CircularProgress />
           </Box>
         }
-        scrollableTarget="scrollableDiv"
       >
         <Box className={styles.grid}>
           {network.map((conn) => {
