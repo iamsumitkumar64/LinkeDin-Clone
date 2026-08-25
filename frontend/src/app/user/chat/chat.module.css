@@ -1,31 +1,43 @@
 .chatContainer {
     display: flex;
-    height: 93%;
-    padding: .2%;
-    gap: 2%;
+    width: 100%;
+    max-width: 1100px;
+    height: calc(100vh - 80px);
+    margin: 0 auto;
+    padding: 12px;
+    gap: 16px;
 }
 
 .sidebar {
-    width: 25%;
-    background: white;
-    border-radius: 16px;
-    border: 0.1% solid #e0e0e0;
+    width: 320px;
+    flex-shrink: 0;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
     overflow-y: auto;
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .sidebar h6 {
-    padding: 4%;
-    border-bottom: 1px solid rgb(204, 204, 204);
+    padding: 14px 16px;
+    border-bottom: 1px solid #f0f0f0;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: #191919;
 }
 
 .chatWindow {
-    width: 73%;
-    background: white;
-    border-radius: 16px;
-    border: 0.1% solid #e0e0e0;
+    flex: 1;
+    min-width: 0;
+    background: #ffffff;
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
 }
 
 .FirendInfoBox {
@@ -33,75 +45,127 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1% 3%;
-    border-bottom: 1px solid rgb(204, 204, 204);
-    font-weight: 900;
+    padding: 10px 16px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.headerLeft {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.backButton {
+    display: none !important;
 }
 
 .FirendInfo {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 12px;
+    cursor: pointer;
 }
 
 .messageList {
     flex: 1;
-    padding: 2%;
+    padding: 16px;
     overflow-y: auto;
     display: flex;
     flex-direction: column;
-    gap: 5%;
+    gap: 16px;
+    background-color: #fafafa;
 }
 
 .messageItem {
-    max-width: 70%;
-    padding: 1%;
-    border-radius: 16px;
+    max-width: 75%;
+    padding: 10px 14px 18px 14px;
+    border-radius: 12px;
     font-size: 0.9rem;
-    word-wrap: break-word;
+    word-break: break-word;
     position: relative;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
 .msgTime {
-    width: fit-content;
+    font-size: 0.65rem;
     position: absolute;
-    bottom: -10;
-    right: -5;
-    padding: 1%;
-    font-size: 100%;
-    z-index: 2;
-    font-weight: 900;
-    color: rgb(0, 0, 0);
-    background-color: rgb(255, 255, 255);
-    border-radius: 100px;
-    text-align: center;
+    bottom: 2px;
+    right: 8px;
+    color: #777;
 }
 
 .myMessage {
     align-self: flex-end;
     background-color: #0a66c2;
-    color: white;
+    color: #ffffff;
+    border-bottom-right-radius: 2px;
+}
+
+.myMessage .msgTime {
+    color: rgba(255, 255, 255, 0.8);
 }
 
 .friendMessage {
     align-self: flex-start;
-    background-color: #f3f2ef;
-    color: rgba(0, 0, 0, 0.9);
+    background-color: #ffffff;
+    border: 1px solid #e8e8e8;
+    color: #191919;
+    border-bottom-left-radius: 2px;
 }
 
 .inputArea {
-    padding: 2%;
-    border-top: 0.1% solid #e0e0e0;
+    padding: 12px 16px;
+    border-top: 1px solid #f0f0f0;
     display: flex;
-    gap: 1%;
+    gap: 10px;
+    align-items: center;
+    background-color: #ffffff;
 }
 
 .friendItem {
-    padding: 4%;
-    border-bottom: 0.1% solid #f3f2ef;
+    padding: 12px 16px;
+    border-bottom: 1px solid #f5f5f5;
     cursor: pointer;
+    transition: background-color 0.15s ease;
+}
+
+.friendItem:hover {
+    background-color: #f3f2ef;
 }
 
 .selectedFriend {
-    background-color: #e8f3ff;
+    background-color: #edf3f8 !important;
+}
+
+.emptyChatPrompt {
+    display: flex;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+@media (max-width: 768px) {
+    .chatContainer {
+        padding: 6px;
+        height: calc(100vh - 64px);
+    }
+    .backButton {
+        display: inline-flex !important;
+    }
+    .sidebarHiddenOnMobile {
+        display: none !important;
+    }
+    .chatWindowHiddenOnMobile {
+        display: none !important;
+    }
+    .sidebar {
+        width: 100%;
+    }
+    .chatWindow {
+        width: 100%;
+    }
+    .messageItem {
+        max-width: 85%;
+    }
 }

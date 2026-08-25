@@ -6,11 +6,12 @@ import { AppDispatch, RootState } from "@/redux/store"
 import { getNetworkConnections } from "@/redux/feature/user/Connection/connectionAction"
 import { getChatMessages, sendMessage } from "@/redux/feature/user/Chat/chatAction"
 import { receiveMessage, clearChat, setCurrent_reciever } from "@/redux/feature/user/Chat/chatSlice"
-import { Box, Typography, TextField, Button, Avatar, List, ListItem, ListItemAvatar, ListItemText } from "@mui/material"
+import { Box, Typography, TextField, Button, Avatar, List, ListItem, ListItemAvatar, ListItemText, IconButton } from "@mui/material"
 import styles from "./chat.module.css"
 import { connectSocket, disconnectSocket } from "@/service/socket"
 import { useRouter } from "next/navigation"
 import { BsThreeDots } from "react-icons/bs";
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { getLinkedInTime } from "@/util/post.time"
 
 export default function ChatPage() {
@@ -65,7 +66,7 @@ export default function ChatPage() {
 
     return (
         <Box className={styles.chatContainer}>
-            <Box className={styles.sidebar}>
+            <Box className={`${styles.sidebar} ${selectedFriend ? styles.sidebarHiddenOnMobile : ""}`}>
                 <Typography variant="h6">Messaging</Typography>
                 <List>
                     {network.map((conn) => (
@@ -86,13 +87,22 @@ export default function ChatPage() {
                 </List>
             </Box>
 
-            <Box className={styles.chatWindow}>
+            <Box className={`${styles.chatWindow} ${!selectedFriend ? styles.chatWindowHiddenOnMobile : ""}`}>
                 {selectedFriend ? (
                     <>
                         <Box className={styles.FirendInfoBox}>
-                            <Box className={styles.FirendInfo} onClick={() => { router.push(`/user/${selectedFriend.connected_user_uuid}`) }} >
-                                <Avatar src={selectedFriend.connected_user.profile?.profile_img?.image_url} />
-                                <Typography variant="subtitle1" fontWeight={600}>{selectedFriend.connected_user.name}</Typography>
+                            <Box className={styles.headerLeft}>
+                                <IconButton
+                                    className={styles.backButton}
+                                    onClick={() => setSelectedFriend(null)}
+                                    size="small"
+                                >
+                                    <ArrowBackIcon />
+                                </IconButton>
+                                <Box className={styles.FirendInfo} onClick={() => { router.push(`/user/${selectedFriend.connected_user_uuid}`) }} >
+                                    <Avatar src={selectedFriend.connected_user.profile?.profile_img?.image_url} />
+                                    <Typography variant="subtitle1" fontWeight={600}>{selectedFriend.connected_user.name}</Typography>
+                                </Box>
                             </Box>
                             <BsThreeDots />
                         </Box>
@@ -124,7 +134,7 @@ export default function ChatPage() {
                         </Box>
                     </>
                 ) : (
-                    <Box>
+                    <Box className={styles.emptyChatPrompt}>
                         <Typography color="textSecondary">Select a friend to start chatting</Typography>
                     </Box>
                 )}

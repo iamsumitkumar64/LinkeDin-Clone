@@ -36,19 +36,19 @@ const MoodEmojiReactionPanel: React.FC<MoodEmojiReactionPanelProps> = ({
   };
 
   return (
-    <div className={`flex flex-wrap gap-2 p-2 bg-white  rounded-lg shadow-sm border border-gray-100 dark:border-gray-400 ${className}`}>
+    <div className={`flex flex-nowrap items-center gap-1 p-1 bg-white rounded-full shadow-lg border border-gray-200 ${className}`}>
       {emojis.map(emoji => (
         <button
           key={emoji}
           onClick={() => handleReaction(emoji)}
-          className={`relative flex items-center justify-center w-10 h-10 text-xl rounded-full transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 ${animating[emoji] ? 'animate-bounce' : ''
+          className={`relative flex items-center justify-center w-8 h-8 sm:w-9 sm:h-9 text-lg sm:text-xl rounded-full transition-all duration-200 focus:outline-none ${animating[emoji] ? 'animate-bounce' : ''
             }`}
           aria-label={`React with ${emoji}`}
         >
-          <div className="w-3xs relative flex items-center justify-center transition-transform duration-300 hover:-translate-y-2 hover:scale-225">
+          <div className="relative flex items-center justify-center transition-transform duration-200 hover:-translate-y-1 hover:scale-125">
             <span className="select-none">{emoji}</span>
             {showCounters && reactions[emoji] > 0 && (
-              <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-[10px] rounded-full w-4 h-4 flex items-center justify-center font-bold">
+              <span className="absolute -top-1 -right-1 bg-blue-500 text-white text-[9px] rounded-full w-3.5 h-3.5 flex items-center justify-center font-bold">
                 {reactions[emoji]}
               </span>
             )}

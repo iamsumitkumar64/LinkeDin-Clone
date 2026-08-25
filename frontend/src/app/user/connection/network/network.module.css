@@ -1,63 +1,94 @@
 .container {
   width: 100%;
-  height: 91%;
+  max-width: 1120px;
+  margin: 0 auto;
+  min-height: calc(100vh - 56px);
   display: flex;
   flex-direction: column;
-  padding: 1%;
-  overflow-y: auto;
+  padding: 20px 16px 40px 16px;
+  gap: 16px;
+}
+
+.title {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #191919;
 }
 
 .grid {
   width: 100%;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 20px;
-  padding-bottom: 1%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 16px;
+  padding-bottom: 16px;
 }
 
 .card {
-  width: 20%;
+  width: 100%;
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   position: relative;
+  border-radius: 10px;
+  border: 1px solid #e0e0e0;
+  background: #ffffff;
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
 }
 
 .cardContent {
   width: 100%;
-  height: fit-content;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: space-between;
+  text-align: center;
+  padding: 20px 12px;
+  gap: 12px;
 }
 
 .avatar {
-  width: 240px;
-  height: 240px;
+  width: 72px;
+  height: 72px;
+  border: 2px solid #e0e0e0;
+  cursor: pointer;
+  background-color: #ffffff;
 }
 
 .infoBox {
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
+  gap: 2px;
+  width: 100%;
 }
 
 .name {
-  font-size: 120%;
+  font-size: 0.95rem;
   font-weight: 600;
+  color: #191919;
+  cursor: pointer;
+}
+
+.name:hover {
+  text-decoration: underline;
 }
 
 .email {
-  font-size: 90%;
-  opacity: 0.7;
+  font-size: 0.78rem;
+  color: #666;
 }
 
 .bio {
-  font-size: 85%;
-  opacity: 0.8;
+  font-size: 0.8rem;
+  color: #444;
+  margin-top: 4px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
 .loader {
@@ -65,5 +96,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 3%;
+  padding: 24px 0;
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 12px 8px 30px 8px;
+  }
+  .grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+  .cardContent {
+    padding: 14px 8px;
+  }
+  .avatar {
+    width: 56px;
+    height: 56px;
+  }
+  .name {
+    font-size: 0.85rem;
+  }
+  .bio {
+    font-size: 0.72rem;
+  }
 }

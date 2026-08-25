@@ -1,89 +1,128 @@
 .header {
     width: 100%;
-    height: 5.5%;
+    height: 56px;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
-    /* padding: 0 3%; */
-    background-color: white;
-    border-bottom: 1px solid #e0e0e0;
-    overflow: hidden;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e8e8e8;
+    position: sticky;
+    top: 0;
+    z-index: 1100;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+.headerInner {
+    width: 100%;
+    max-width: 1200px;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 16px;
+    gap: 12px;
 }
 
 .leftContainer {
-    width: 40%;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
-    gap: 15px;
+    gap: 10px;
+    flex-shrink: 0;
 }
 
 .avatar {
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     cursor: pointer;
-}
-
-.leftContainer :global(input) {
-    /* border-radius: 4px; */
-    padding: 5px 12px;
-    /* width: 250px; */
+    flex-shrink: 0;
 }
 
 .rightContainer {
-    width: 60%;
     display: flex;
-    justify-content: flex-start;
+    justify-content: flex-end;
     align-items: center;
-    margin-left: 3%;
-}
-
-.sideBox {
-    display: flex;
-    height: fit-content;
-    border-left: 1px solid rgb(219, 219, 219);
+    gap: 8px;
+    flex: 1;
+    min-width: 0;
 }
 
 .category {
-    width: fit-content;
     display: flex;
+    overflow-x: auto;
+    scrollbar-width: none;
+    max-width: 100%;
 }
 
-.categoryBoxes {
-    color: rgb(94, 94, 94);
-    min-width: 70px;
+.category::-webkit-scrollbar {
+    display: none;
+}
+
+.category :global(.MuiTabs-root) {
+    min-height: 56px;
+}
+
+.category :global(.MuiTabs-scroller) {
+    overflow-x: auto !important;
+}
+
+.category :global(.MuiTab-root) {
+    min-height: 56px;
+    min-width: 60px;
+    padding: 4px 8px;
+    color: #666666;
     text-transform: none;
+    transition: color 0.2s;
 }
 
-.categoryBoxes svg {
+.category :global(.MuiTab-root.Mui-selected) {
+    color: #000000;
+}
+
+.category :global(.MuiTab-root svg) {
     font-size: 20px;
-}
-
-.Mui-selected {
-    color: black;
-}
-
-.categoryBoxes:hover {
-    color: black;
+    margin-bottom: 2px;
 }
 
 .categoryText {
     font-size: 0.65rem;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.sideBox {
+    display: flex;
+    align-items: center;
+    border-left: 1px solid #e0e0e0;
+    padding-left: 8px;
+}
+
+.sideBox :global(.MuiTabs-root) {
+    min-height: 56px;
+}
+
+.sideBox :global(.MuiTab-root) {
+    min-height: 56px;
+    min-width: 70px;
+    padding: 4px 8px;
+    color: #666666;
+    text-transform: none;
 }
 
 .authButtons {
     display: flex;
-    gap: 10px;
+    gap: 8px;
     align-items: center;
+    flex-shrink: 0;
 }
 
 .signinButton {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     font-weight: 600;
     border: 1px solid #0a66c2;
     border-radius: 20px;
-    /* padding: 5px 14px; */
     color: #0a66c2;
+    padding: 4px 14px;
+    white-space: nowrap;
 }
 
 .signinButton:hover {
@@ -91,12 +130,13 @@
 }
 
 .joinusButton {
-    font-size: 0.8rem;
+    font-size: 0.82rem;
     font-weight: 600;
     background-color: #0a66c2;
     border-radius: 20px;
     color: white;
-    /* padding: 5px 14px; */
+    padding: 4px 14px;
+    white-space: nowrap;
 }
 
 .joinusButton:hover {
@@ -106,13 +146,62 @@
 .logoutButton {
     color: #d11124;
     font-weight: 600;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    border: 1px solid #ffccd1;
+    border-radius: 20px;
+    padding: 3px 10px;
+    flex-shrink: 0;
 }
 
-.category :global(.MuiTabs-root) {
-    height: 100%;
+.logoutButton:hover {
+    background-color: #fff1f2;
 }
 
-.category :global(.MuiTab-root) {
-    min-height: 5.5%;
-    padding: 4px 12px;
+@media (max-width: 1024px) {
+    .sideBox {
+        display: none;
+    }
+}
+
+@media (max-width: 768px) {
+    .header {
+        height: 52px;
+    }
+    .headerInner {
+        padding: 0 8px;
+        gap: 6px;
+    }
+    .category :global(.MuiTabs-root) {
+        min-height: 52px;
+    }
+    .category :global(.MuiTab-root) {
+        min-height: 52px;
+        min-width: 48px;
+        padding: 2px 4px;
+    }
+    .categoryText {
+        display: none;
+    }
+    .category :global(.MuiTab-root svg) {
+        font-size: 22px;
+        margin-bottom: 0;
+    }
+    .signinButton,
+    .joinusButton,
+    .logoutButton {
+        font-size: 0.75rem;
+        padding: 2px 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    .avatar {
+        width: 32px;
+        height: 32px;
+    }
+    .category :global(.MuiTab-root) {
+        min-width: 38px;
+        padding: 2px 2px;
+    }
 }

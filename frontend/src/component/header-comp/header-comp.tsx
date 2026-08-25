@@ -145,37 +145,66 @@ export default function HeaderComp() {
 
     return (
         <Box className={styles.header}>
-            <Box className={styles.leftContainer}>
-                <Image
-                    src={'/linkedin.png'}
-                    className={styles.avatar}
-                    alt="logo"
-                    width={40}
-                    height={40}
-                    onClick={() => router.replace('/')}
-                />
-                {user && <SearchComp onSearch={(value) => enqueueSnackbar(value, { variant: "info" })} />}
-            </Box>
+            <Box className={styles.headerInner}>
+                <Box className={styles.leftContainer}>
+                    <Image
+                        src={'/linkedin.png'}
+                        className={styles.avatar}
+                        alt="logo"
+                        width={36}
+                        height={36}
+                        onClick={() => router.replace('/')}
+                    />
+                    {user && <SearchComp onSearch={(value) => enqueueSnackbar(value, { variant: "info" })} />}
+                </Box>
 
-            <Box className={styles.rightContainer}>
-                <Box className={styles.category}>
-                    <Tabs
-                        value={tabValue}
-                        onChange={handleChange}
-                        // variant="scrollable"
-                        // scrollButtons="auto"
-                        TabIndicatorProps={{
-                            style: { backgroundColor: "black" }
-                        }}
-                    >
-                        {visibleTabs.map((tab) => (
+                <Box className={styles.rightContainer}>
+                    <Box className={styles.category}>
+                        <Tabs
+                            value={tabValue}
+                            onChange={handleChange}
+                            variant="scrollable"
+                            scrollButtons={false}
+                            allowScrollButtonsMobile
+                            TabIndicatorProps={{
+                                style: { backgroundColor: "black" }
+                            }}
+                        >
+                            {visibleTabs.map((tab) => (
+                                <Tab
+                                    key={tab.route}
+                                    icon={tab.icon}
+                                    iconPosition="top"
+                                    label={
+                                        <Typography className={styles.categoryText}>
+                                            {tab.label}
+                                        </Typography>
+                                    }
+                                    className={styles.categoryBoxes}
+                                    sx={{
+                                        "&.Mui-selected": {
+                                            color: "black"
+                                        }
+                                    }}
+                                />
+                            ))}
+                        </Tabs>
+                    </Box>
+
+                    <Box className={styles.sideBox}>
+                        <Tabs
+                            value={false}
+                            onChange={()=>{}}
+                            TabIndicatorProps={{
+                                style: { backgroundColor: "black" }
+                            }}
+                        >
                             <Tab
-                                key={tab.route}
-                                icon={tab.icon}
+                                icon={<AppsIcon />}
                                 iconPosition="top"
                                 label={
                                     <Typography className={styles.categoryText}>
-                                        {tab.label}
+                                        For Business <KeyboardArrowDownIcon />
                                     </Typography>
                                 }
                                 className={styles.categoryBoxes}
@@ -185,76 +214,48 @@ export default function HeaderComp() {
                                     }
                                 }}
                             />
-                        ))}
-                    </Tabs>
-                </Box>
-
-                <Box className={styles.sideBox}>
-                    <Tabs
-                        value={false}
-                        onChange={()=>{}}
-                        // variant="scrollable"
-                        // scrollButtons="auto"
-                        TabIndicatorProps={{
-                            style: { backgroundColor: "black" }
-                        }}
-                    >
-                        <Tab
-                            icon={<AppsIcon />}
-                            iconPosition="top"
-                            label={
-                                <Typography className={styles.categoryText}>
-                                    For Business <KeyboardArrowDownIcon />
-                                </Typography>
-                            }
-                            className={styles.categoryBoxes}
-                            sx={{
-                                "&.Mui-selected": {
-                                    color: "black"
+                            <Tab
+                                icon={<BsBoxSeamFill color="rgb(223, 163, 0)" />}
+                                iconPosition="top"
+                                label={
+                                    <Typography className={styles.categoryText}>
+                                        Try Premium for $0
+                                    </Typography>
                                 }
-                            }}
-                        />
-                        <Tab
-                            icon={<BsBoxSeamFill color="rgb(223, 163, 0)" />}
-                            iconPosition="top"
-                            label={
-                                <Typography className={styles.categoryText}>
-                                    Try Premium for $0
-                                </Typography>
-                            }
-                            className={styles.categoryBoxes}
-                            sx={{
-                                "&.Mui-selected": {
-                                    color: "black"
-                                }
-                            }}
-                        />
-                    </Tabs>
-                </Box>
-
-                {user ? (
-                    <Button
-                        className={styles.logoutButton}
-                        onClick={handleLogOut}
-                    >
-                        Sign Out
-                    </Button>
-                ) : (
-                    <Box className={styles.authButtons}>
-                        <Button
-                            onClick={() => router.replace('/login')}
-                            className={styles.signinButton}
-                        >
-                            Sign In
-                        </Button>
-                        <Button
-                            onClick={() => router.replace('/signup')}
-                            className={styles.joinusButton}
-                        >
-                            Join now
-                        </Button>
+                                className={styles.categoryBoxes}
+                                sx={{
+                                    "&.Mui-selected": {
+                                        color: "black"
+                                    }
+                                }}
+                            />
+                        </Tabs>
                     </Box>
-                )}
+
+                    {user ? (
+                        <Button
+                            className={styles.logoutButton}
+                            onClick={handleLogOut}
+                        >
+                            Sign Out
+                        </Button>
+                    ) : (
+                        <Box className={styles.authButtons}>
+                            <Button
+                                onClick={() => router.replace('/login')}
+                                className={styles.signinButton}
+                            >
+                                Sign In
+                            </Button>
+                            <Button
+                                onClick={() => router.replace('/signup')}
+                                className={styles.joinusButton}
+                            >
+                                Join now
+                            </Button>
+                        </Box>
+                    )}
+                </Box>
             </Box>
         </Box>
     )

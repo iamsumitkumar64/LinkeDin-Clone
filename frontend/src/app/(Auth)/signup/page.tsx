@@ -134,7 +134,9 @@ export default function SignupForm() {
                     </Button>
                 </form>
             </Card>
-            <Image src={"/signup-logo-page.svg"} alt="Signup side page missing" width={500} height={500} />
+            <Box className={styles.illustrationWrapper}>
+                <Image src={"/signup-logo-page.svg"} alt="signup illustration" width={450} height={450} className={styles.illustration} priority />
+            </Box>
         </Box >
     )
 }

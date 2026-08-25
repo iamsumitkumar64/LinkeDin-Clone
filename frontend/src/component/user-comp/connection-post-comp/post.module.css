@@ -1,165 +1,172 @@
 .container {
     width: 100%;
     margin: 0 auto;
-    height: 93vh;
-    overflow-y: auto;
-    padding-bottom: 30%;
 }
 
 .infiniteScroll {
     width: 100%;
-    height: 100%;
-}
-
-.postFormWrapper {
-    width: 70%;
-    margin: 0 auto 2% auto;
-}
-
-.scrollContainer {
-    margin: 0 auto;
-    overflow-y: auto;
-    max-width: 90%;
 }
 
 .flexWrap {
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 2%;
-    justify-content: center;
+    gap: 12px;
 }
 
 .card {
     width: 100%;
-    height: 100%;
-    margin-bottom: 2%;
-    border-radius: 1.2%;
+    border-radius: 10px;
     overflow: hidden;
     display: flex;
     flex-direction: column;
-    background-color: #fff;
-    box-shadow: 0 0.4% 0.8% rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s ease;
-    border-radius: 5px;
-}
-
-.bio {
-    color: rgb(114, 114, 114);
-    font-size: 12px;
-}
-
-.card:hover {
-    box-shadow: 0 0.8% 1.6% rgba(0, 0, 0, 0.15);
+    background-color: #ffffff;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e0e0e0;
 }
 
 .cardContent {
     width: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    height: 100%;
-    padding: 1.5% 2%;
+    padding: 16px;
 }
 
 .header {
     width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1%;
-}
-
-.profileinfo {
-    width: 100%;
+    align-items: flex-start;
+    margin-bottom: 8px;
 }
 
 .userInfo {
     width: 100%;
     display: flex;
-    align-items: center;
-    gap: 1.2%;
+    align-items: flex-start;
+    gap: 12px;
+    cursor: pointer;
 }
 
 .avatar {
-    /* width: 4.5%; */
-    /* height: 4.5%; */
-    font-size: 1.3rem;
-    /* background-color: #0a66c2; */
+    width: 48px;
+    height: 48px;
+    font-size: 1.2rem;
     color: white;
-    min-width: 45px;
-    min-height: 45px;
+    flex-shrink: 0;
+}
+
+.profileinfo {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
 }
 
 .username {
-    width: 100%;
     font-weight: 700;
-    font-size: 1rem;
+    font-size: 0.95rem;
+    color: #191919;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    word-break: none;
+}
+
+.username:hover {
+    color: #0a66c2;
+    text-decoration: underline;
+}
+
+.bio {
+    color: #666666;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .date {
     font-size: 0.75rem;
-    color: gray;
+    color: #888888;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
 }
 
 .content {
-    font-size: 0.95rem;
-    margin: 0.8% 0;
-    color: #333;
-    cursor: pointer;
+    font-size: 0.92rem;
+    margin: 8px 0 10px 0;
+    color: #191919;
+    line-height: 1.5;
+    word-break: break-word;
 }
 
 .imageContainer {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.6%;
-    margin: 1.2% 0;
-    justify-content: center;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 8px;
+    margin: 8px 0;
+    width: 100%;
 }
 
 .image {
-    width: 40%;
-    height: auto;
-    aspect-ratio: 16 / 9;
-    object-fit: contain;
-    border-radius: 0.6%;
-    box-shadow: 0 0 0.6% rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    border: 1px solid rgb(235, 235, 235);
-    border-radius: 16px;
-}
-
-.image:hover {
-    transform: scale(1.05);
+    width: 100%;
+    max-height: 380px;
+    object-fit: cover;
+    border-radius: 8px;
+    border: 1px solid #e8e8e8;
 }
 
 .loader {
     display: flex;
     justify-content: center;
-    padding: 2%;
+    padding: 20px 0;
     color: #0a66c2;
-}
-
-.topButton {
-    width: 100%;
-    display: flex;
-    justify-content: flex-end;
-    margin-bottom: 0.5%;
+    font-size: 0.9rem;
 }
 
 .boxButtons {
     width: 100%;
-    font-weight: 700;
     display: flex;
     justify-content: space-around;
+    border-top: 1px solid #f0f0f0;
+    padding: 4px 8px;
 }
 
-.boxButtons>button {
-    padding: 2%;
-    width: 100%;
-    border-top: 1px solid rgb(219, 219, 219);
+.boxButtons > button {
+    flex: 1;
+    padding: 8px 4px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 4px;
+    color: #666;
+}
+
+.boxButtons > button:hover {
+    background-color: #f3f2ef;
+    color: #191919;
+}
+
+@media (max-width: 600px) {
+    .cardContent {
+        padding: 12px;
+    }
+    .avatar {
+        width: 40px;
+        height: 40px;
+    }
+    .username {
+        font-size: 0.88rem;
+    }
+    .content {
+        font-size: 0.88rem;
+    }
+    .imageContainer {
+        grid-template-columns: 1fr;
+    }
+    .boxButtons > button {
+        font-size: 11px;
+        padding: 6px 2px;
+    }
 }

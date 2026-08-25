@@ -71,6 +71,9 @@ export default function GlobalConnectionPage() {
     return (
         <Box className={styles.container} id="scrollableDiv">
             <Box className={styles.topButton}>
+                <Typography variant="h6" fontWeight={700}>
+                    Global Professionals
+                </Typography>
                 <Button variant="contained" onClick={handleProfileFormModalOpen}>
                     Requests
                 </Button>
